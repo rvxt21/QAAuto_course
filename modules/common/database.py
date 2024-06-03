@@ -1,4 +1,5 @@
 import sqlite3
+from sqlite3 import OperationalError
 
 
 class Database:
@@ -16,6 +17,14 @@ class Database:
 
     def get_all_users(self):
         query = 'SELECT name, address, city FROM customers'
+        self.cursor.execute(query)
+        record = self.cursor.fetchall()
+
+        return record
+
+    def get_product_by_id(self, product_id: int):
+        query = (f"SELECT id, name, description, quantity FROM products "
+                 f"WHERE id={product_id}")
         self.cursor.execute(query)
         record = self.cursor.fetchall()
 
@@ -44,6 +53,7 @@ class Database:
     def insert_product(self, product_id: int, name:str, description: str, qnt: int):
         query = f"INSERT OR REPLACE INTO products (id, name, description, quantity)"\
                  f"VALUES ({product_id}, '{name}', '{description}', {qnt})"
+
         self.cursor.execute(query)
         self.connection.commit()
 
@@ -62,3 +72,4 @@ class Database:
         record = self.cursor.fetchall()
 
         return record
+

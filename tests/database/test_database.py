@@ -1,5 +1,5 @@
 import pytest
-
+import sqlite3
 
 @pytest.mark.database
 def test_database_connection(database):
@@ -45,6 +45,10 @@ def test_product_delete(database):
     assert len(qnt) == 0
 
 @pytest.mark.database
+def test_delete_product_wrong_id(database):
+    result = database.delete_product_by_id(100)
+
+@pytest.mark.database
 def test_detailed_orders(database):
     orders = database.get_detailed_orders()
     print("ORDERS\n", orders)
@@ -55,3 +59,35 @@ def test_detailed_orders(database):
     assert orders[0][1] == 'Sergii'
     assert orders[0][2] == 'солодка вода'
     assert orders[0][3] == 'з цукром'
+
+#My tests
+@pytest.mark.database
+def test_insert_unsupported_id_data_type(database):
+    with pytest.raises(sqlite3.OperationalError) as exc_info:
+        database.insert_product('1djs', 'M&M`s', 'With nutella', 123)
+
+    assert 'unrecognized token' in str(exc_info.value)
+
+@pytest.mark.database
+def test_get_user_non_existing_name(database):
+    user = database.get_address_by_name('Ananas')
+
+    assert len(user) == 0
+
+@pytest.mark.database
+def test_check_change_negative_product_qnty(database):
+    database.insert_product(12, 'test_product_negative_qnt',
+                            'test_description', 10)
+
+    negative_qnt_value = -10
+    with pytest.raises(sqlite3.IntegrityError) as exc_info:
+        database.update_product_qnt_by_id(12, negative_qnt_value)
+
+    assert "CHECK constraint failed" in str(exc_info.value)
+
+@pytest.mark.database
+def test_correct_relations_with_customer_in_orders(database):
+    database.get_detailed_orders()
+
+
+
