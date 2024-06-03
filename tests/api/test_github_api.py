@@ -29,3 +29,23 @@ def test_repo_cannot_be_found(github_api):
 def test_repo_with_single_char_be_found(github_api):
     r = github_api.search_repo('s')
     assert r['total_count'] != 0
+
+@pytest.mark.api
+def test_emoji(github_api):
+    r = github_api.search_emoji()
+
+    assert r.status_code == 200
+
+@pytest.mark.api
+def test_list_of_commits(github_api):
+    r = github_api.search_list_of_commits('rvxt21',
+                                          'golang_projector_homeworks')
+    assert r.status_code == 200
+
+@pytest.mark.api
+def test_list_of_commits_with_wrong_reponame(github_api):
+    r = github_api.search_list_of_commits('rvxt21', 'projector_homeworks')
+
+    assert r.status_code == 404
+    assert r.reason == 'Not Found'
+
