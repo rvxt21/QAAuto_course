@@ -46,7 +46,7 @@ class Database:
     def select_product_qnt_by_id(self, product_id):
         query = f"SELECT quantity FROM products WHERE id = {product_id}"
         self.cursor.execute(query)
-        record = self.cursor.fetchall()
+        record = self.cursor.fetchone()
 
         return record
 
@@ -84,4 +84,18 @@ class Database:
         record = self.cursor.fetchall()
 
         return record
+
+    def input_order_details(self, order_id: int, product_id: int, customer_id: int):
+        query = f"INSERT OR REPLACE INTO orders (order_id, product_id, customer_id)"\
+                f"VALUES ({order_id}, {product_id}, {customer_id})"
+        self.cursor.execute(query)
+        self.connection.commit()
+
+    def select_customers_by_first_letter(self, letter:str):
+        query = f"SELECT * FROM customers WHERE name LIKE '{letter}%'"
+        self.cursor.execute(query)
+
+        result = self.cursor.fetchall()
+
+        return result
 
