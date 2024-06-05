@@ -1,15 +1,18 @@
 import pytest
 import sqlite3
 
+
 @pytest.mark.database
 def test_database_connection(database):
     database.test_connection()
+
 
 @pytest.mark.database
 def test_check_all_users(database):
     users = database.get_all_users()
 
     print(users)
+
 
 @pytest.mark.database
 def test_check_user_sergii(database):
@@ -20,6 +23,7 @@ def test_check_user_sergii(database):
     assert user[0][2] == '3127'
     assert user[0][3] == 'Ukraine'
 
+
 @pytest.mark.database
 def test_check_change_product_qnt(database):
     database.update_product_qnt_by_id(1, 25)
@@ -28,11 +32,13 @@ def test_check_change_product_qnt(database):
 
     assert water_qnt[0] == 25
 
+
 @pytest.mark.database
 def test_product_insert(database):
     database.insert_product(4, 'печиво', 'солодке', 30)
     cookies_qnt = database.select_product_qnt_by_id(4)
     assert cookies_qnt[0] == 30
+
 
 @pytest.mark.database
 def test_product_delete(database):
@@ -42,6 +48,7 @@ def test_product_delete(database):
     qnt = database.select_product_qnt_by_id(99)
 
     assert qnt is None
+
 
 @pytest.mark.database
 def test_detailed_orders(database):
@@ -58,6 +65,8 @@ def test_detailed_orders(database):
 
 """Individual part tests for testing database
 Tests are marked as db_individual"""
+
+
 @pytest.mark.db_individual
 def test_insert_unsupported_id_data_type(database):
     with pytest.raises(sqlite3.OperationalError) as exc_info:
