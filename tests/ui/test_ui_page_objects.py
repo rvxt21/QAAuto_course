@@ -1,8 +1,8 @@
 import pytest
 
-from tests.ui.page_objects.nova_post.main_page_nova_poshta import MainPageNP
-from tests.ui.page_objects.sign_in_page import SignInPage
-from tests.ui.page_objects.nova_post.sign_in_nova_poshta import SignInPageNP
+from modules.ui.page_objects.nova_post.main_page_nova_poshta import MainPageNP
+from modules.ui.page_objects.sign_in_page import SignInPage
+from modules.ui.page_objects.nova_post.sign_in_nova_poshta import SignInPageNP
 
 
 @pytest.mark.ui

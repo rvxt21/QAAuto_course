@@ -2,7 +2,7 @@ import time
 
 from selenium.webdriver.common.by import By
 
-from tests.ui.page_objects.base_page import BasePage
+from modules.ui.page_objects.base_page import BasePage
 
 
 class SignInPageNP(BasePage):

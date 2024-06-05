@@ -1,11 +1,9 @@
-import time
-
 from selenium.common import TimeoutException, NoSuchElementException, \
     ElementNotInteractableException, ElementClickInterceptedException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from tests.ui.page_objects.base_page import BasePage
+from modules.ui.page_objects.base_page import BasePage
 
 
 class MainPageNP(BasePage):
