@@ -50,7 +50,7 @@ class Database:
 
         return record
 
-    def insert_product(self, product_id: int, name:str, description: str, qnt: int):
+    def insert_product(self, product_id: int, name: str, description: str, qnt: int):
         query = f"INSERT OR REPLACE INTO products (id, name, description, quantity)"\
                  f"VALUES ({product_id}, '{name}', '{description}', {qnt})"
 
@@ -68,6 +68,18 @@ class Database:
                  "FROM orders "\
                  "JOIN customers ON orders.customer_id = customers.id "\
                  "JOIN products ON orders.product_id = products.id"
+        self.cursor.execute(query)
+        record = self.cursor.fetchall()
+
+        return record
+
+    def get_detailed_order_by_order_id(self, order_id: int):
+        query = f"SELECT orders.id, customers.name, products.name, "\
+                 f"products.description, orders.order_date "\
+                 f"FROM orders "\
+                 f"JOIN customers ON orders.customer_id = customers.id "\
+                 f"JOIN products ON orders.product_id = products.id "\
+                 f"WHERE orders.id = {order_id}"
         self.cursor.execute(query)
         record = self.cursor.fetchall()
 

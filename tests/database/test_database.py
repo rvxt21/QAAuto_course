@@ -45,10 +45,6 @@ def test_product_delete(database):
     assert len(qnt) == 0
 
 @pytest.mark.database
-def test_delete_product_wrong_id(database):
-    result = database.delete_product_by_id(100)
-
-@pytest.mark.database
 def test_detailed_orders(database):
     orders = database.get_detailed_orders()
     print("ORDERS\n", orders)
@@ -86,8 +82,29 @@ def test_check_change_negative_product_qnty(database):
     assert "CHECK constraint failed" in str(exc_info.value)
 
 @pytest.mark.database
-def test_correct_relations_with_customer_in_orders(database):
-    database.get_detailed_orders()
+def test_get_non_existing_order(database):
+    res = database.get_detailed_order_by_order_id(2)
 
+    assert len(res) == 0
+
+@pytest.mark.database
+def test_get_non_existing_product_by_id(database):
+    result = database.get_product_by_id(23)
+
+    assert len(result) == 0
+
+@pytest.mark.database
+def test_get_product_wrong_id_type(database):
+    with pytest.raises(sqlite3.OperationalError) as exc:
+        database.get_product_by_id("QW")
+
+    assert "no such column" in str(exc.value)
+
+@pytest.mark.database
+def test_get_delete_product_wrong_id_type(database):
+    with pytest.raises(sqlite3.OperationalError) as err:
+        database.delete_product_by_id("QKWQ")
+
+    assert "no such column" in str(err.value)
 
 
