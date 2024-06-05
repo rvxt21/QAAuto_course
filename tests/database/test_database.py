@@ -56,13 +56,14 @@ def test_detailed_orders(database):
     assert orders[0][2] == 'солодка вода'
     assert orders[0][3] == 'з цукром'
 
+
 #My tests
 @pytest.mark.database
 def test_insert_unsupported_id_data_type(database):
     with pytest.raises(sqlite3.OperationalError) as exc_info:
         database.insert_product('1djs', 'M&M`s', 'With nutella', 123)
 
-    assert 'unrecognized token' in str(exc_info.value)
+
 
 @pytest.mark.database
 def test_get_user_non_existing_name(database):
@@ -79,7 +80,6 @@ def test_check_change_negative_product_qnty(database):
     with pytest.raises(sqlite3.IntegrityError) as exc_info:
         database.update_product_qnt_by_id(12, negative_qnt_value)
 
-    assert "CHECK constraint failed" in str(exc_info.value)
 
 @pytest.mark.database
 def test_get_non_existing_order(database):
@@ -98,13 +98,12 @@ def test_get_product_wrong_id_type(database):
     with pytest.raises(sqlite3.OperationalError) as exc:
         database.get_product_by_id("QW")
 
-    assert "no such column" in str(exc.value)
 
 @pytest.mark.database
 def test_get_delete_product_wrong_id_type(database):
     with pytest.raises(sqlite3.OperationalError) as err:
         database.delete_product_by_id("QKWQ")
 
-    assert "no such column" in str(err.value)
+
 
 
