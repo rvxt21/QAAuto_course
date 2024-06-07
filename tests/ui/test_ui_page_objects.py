@@ -1,5 +1,8 @@
+import time
+
 import pytest
 
+from modules.ui.page_objects.nova_post.main_page_nova_poshta import MainPageNP
 from modules.ui.page_objects.sign_in_page import SignInPage
 from modules.ui.page_objects.nova_post.sign_in_nova_poshta import SignInPageNP
 
@@ -52,10 +55,22 @@ def test_choose_china_country(nova_post_main_page):
 
 
 @pytest.mark.nova_post_ui
-def test_choose_china_country(nova_post_main_page):
+def test_choose_gb_country(nova_post_main_page):
     nova_post_main_page.go_to()
     nova_post_main_page.try_to_choose_country("great_britain")
 
     country = nova_post_main_page.get_country_title()
 
     assert "Великої Британії" == country
+
+
+@pytest.mark.nova_post_ui
+def test_find_parcel_wrong_number():
+    main_page = MainPageNP()
+
+    main_page.go_to()
+    main_page.try_to_find_parcel("123456789021")
+    time.sleep(5)
+    assert "Ми не знайшли посилку за таким номером." in main_page.get_error_message_found_parcel()
+
+

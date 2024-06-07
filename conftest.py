@@ -2,7 +2,7 @@ import pytest
 
 from modules.api.clients.github import GitHub
 from modules.common.database import Database
-from modules.ui.page_objects.nova_post.main_page_nova_poshta import MainPageNP
+from modules.ui.page_objects.nova_post.main_page_nova_poshta_shopping import MainPageNPShopping
 
 
 class User:
@@ -45,6 +45,6 @@ def database():
 
 @pytest.fixture
 def nova_post_main_page():
-    main_page = MainPageNP()
+    main_page = MainPageNPShopping()
 
     yield main_page
