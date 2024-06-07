@@ -1,6 +1,5 @@
 import pytest
 
-from modules.ui.page_objects.nova_post.main_page_nova_poshta import MainPageNP
 from modules.ui.page_objects.sign_in_page import SignInPage
 from modules.ui.page_objects.nova_post.sign_in_nova_poshta import SignInPageNP
 
@@ -33,12 +32,30 @@ def test_incorrect_username_page_nova_post_object():
 
 
 @pytest.mark.nova_post_ui
-def test_choose_usa_country():
-    main_page = MainPageNP()
+def test_choose_usa_country(nova_post_main_page):
+    nova_post_main_page.go_to()
+    nova_post_main_page.try_to_choose_country("usa")
 
-    main_page.go_to()
-    main_page.try_to_choose_usa()
-
-    country = main_page.get_country_title()
+    country = nova_post_main_page.get_country_title()
 
     assert "США" == country
+
+
+@pytest.mark.nova_post_ui
+def test_choose_china_country(nova_post_main_page):
+    nova_post_main_page.go_to()
+    nova_post_main_page.try_to_choose_country("china")
+
+    country = nova_post_main_page.get_country_title()
+
+    assert "Китаю" == country
+
+
+@pytest.mark.nova_post_ui
+def test_choose_china_country(nova_post_main_page):
+    nova_post_main_page.go_to()
+    nova_post_main_page.try_to_choose_country("great_britain")
+
+    country = nova_post_main_page.get_country_title()
+
+    assert "Великої Британії" == country
